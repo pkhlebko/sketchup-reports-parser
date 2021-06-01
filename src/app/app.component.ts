@@ -5,12 +5,11 @@ export type DataRow = { [key: string]: string };
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
 
-  private fileName?: string;
+  public fileName?: string;
   public transformedData?: string[][];
 
   constructor() {}

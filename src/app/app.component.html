@@ -1,15 +1,24 @@
-<h1>Sketchup report parser</h1>
-
-<section id="uploader">
-  <h2>Upload report file</h2>
-  <input type="file" (change)="onFileSelected($event)">
-  <button *ngIf="transformedData" (click)="onDownloadClick()">Download result</button>
+<h1 class="is-size-1">Sketchup report parser</h1>
+<hr />
+<section class="container">
+  <div class="file is-primary">
+    <label class="file-label">
+      <input class="file-input" type="file" name="resume" (change)="onFileSelected($event)">
+      <span class="file-cta">
+        <span class="file-label">Choose a file…</span>
+      </span>
+    </label>
+  </div>
 </section>
 
-<section id="configurator">
-
+<section class="container mt-4">
+  <button
+    class="button is-success"
+    *ngIf="transformedData"
+    (click)="onDownloadClick()"
+  >
+    Download result
+  </button>
 </section>
 
-<section id="result">
-
-</section>
+<section id="result"></section>
