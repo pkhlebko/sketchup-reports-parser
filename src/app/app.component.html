@@ -1,0 +1,15 @@
+<h1>Sketchup report parser</h1>
+
+<section id="uploader">
+  <h2>Upload report file</h2>
+  <input type="file" (change)="onFileSelected($event)">
+  <button *ngIf="transformedData" (click)="onDownloadClick()">Download result</button>
+</section>
+
+<section id="configurator">
+
+</section>
+
+<section id="result">
+
+</section>
