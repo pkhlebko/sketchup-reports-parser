@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { parse, unparse } from 'papaparse';
-
-export type DataRow = { [key: string]: string };
+import { CsvParserService, DataRow } from './services/csv-parser.service';
 
 @Component({
   selector: 'app-root',
@@ -12,43 +10,22 @@ export class AppComponent {
   public fileName?: string;
   public transformedData?: string[][];
 
-  constructor() {}
+  constructor(private csvParser: CsvParserService) {}
 
   public async onFileSelected(event: any) {
     const file = event?.target?.files?.[0];
 
     if (file) {
-      const arr: string[][] = await new Promise((resolve) => {
-        parse(file, {
-          complete: (results) => resolve(results.data as string[][])
-        });
-      });
-      const data: DataRow[] = this.arraysToDataRows(arr);
+      const data: DataRow[] = await this.csvParser.getCsvDataRowsFromFile(file);
 
       this.transformedData = this.transformData(data);
       this.fileName = file.name;
     }
-
   }
 
   public onDownloadClick() {
-    this.downloadCsv(unparse(this.transformedData!), this.fileName!);
-  }
-
-  private arraysToDataRows(arr: string[][]): DataRow[] {
-    const headerCells = arr.shift() as string[];
-
-    return arr.reduce(
-      (acc: DataRow[], values: string[]) => [...acc, this.arrayToDataRow(headerCells, values)],
-      [] as DataRow[]
-    );
-  }
-
-  private arrayToDataRow(keys: string[], values: string[]): DataRow {
-    return keys.reduce(
-      (acc: DataRow, key: string, index: number) => Object.assign(acc, { [key]: values[index] }),
-      {} as DataRow
-    );
+    const csvDataSting = this.csvParser.csvDataToString(this.transformedData!);
+    this.downloadCsv(csvDataSting, this.fileName!);
   }
 
   private transformData(data: DataRow[]): string[][] {
