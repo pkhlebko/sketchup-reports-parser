@@ -1,6 +1,6 @@
-<h1 class="is-size-1">Sketchup report parser</h1>
-<hr />
-<section class="container">
+<h1 class="title">Sketchup report parser</h1>
+
+<section class="container mt-6">
   <div class="file is-primary">
     <label class="file-label">
       <input class="file-input" type="file" name="resume" (change)="onFileSelected($event)">
@@ -11,7 +11,16 @@
   </div>
 </section>
 
-<section class="container mt-4">
+<section class="container mt-6" *ngIf="transformedData">
+  <h2 class="subtitle is-3">{{ fileName }}</h2>
+  <table class="table table is-bordered">
+    <tr *ngFor="let row of transformedData;">
+      <td *ngFor="let value of row;">{{ value }}</td>
+    </tr>
+  </table>
+</section>
+
+<section class="container mt-6">
   <button
     class="button is-success"
     *ngIf="transformedData"
