@@ -11,13 +11,15 @@ export class CsvParserService {
 
   constructor() { }
 
-  public async getCsvDataRowsFromFile(file: File): Promise<DataRow[]> {
-    const csvData: CsvData = await new Promise((resolve) => {
+  public getCsvDataFromFile(file: File): Promise<CsvData> {
+    return new Promise((resolve) => {
       parse(file, {
         complete: (results) => resolve(results.data as CsvData)
       });
     });
+  }
 
+  public getCsvDataRows(csvData: CsvData) {
     return this.arraysToDataRows(csvData);
   }
 
@@ -26,6 +28,8 @@ export class CsvParserService {
   }
 
   private arraysToDataRows(arr: CsvData): DataRow[] {
+    arr = [...arr];
+
     const headerCells = arr.shift() as string[];
 
     return arr.reduce(

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CsvParserService, DataRow } from './services/csv-parser.service';
+import { CsvData, CsvParserService, DataRow } from './services/csv-parser.service';
 import { DataConverterService } from './services/data-converter.service';
 
 @Component({
@@ -9,22 +9,39 @@ import { DataConverterService } from './services/data-converter.service';
 export class AppComponent {
 
   public fileName?: string;
-  public transformedData?: string[][];
+  public csvData?: CsvData;
+  public transformedData?: CsvData;
+  public readonly converterPresets: string[];
+  public selectedPreset: string;
 
   constructor(
     private csvParser: CsvParserService,
     private dataCoverter: DataConverterService
-  ) { }
+  ) {
+    this.converterPresets = Object.keys(this.dataCoverter.availablePresets);
+    this.selectedPreset = this.converterPresets[0];
+  }
 
   public async onFileSelected(event: any) {
     const file = event?.target?.files?.[0];
 
     if (file) {
-      const data = await this.csvParser.getCsvDataRowsFromFile(file);
-
       this.fileName = file.name;
-      this.transformedData = this.dataCoverter.transformData(data);
+      this.csvData = await this.csvParser.getCsvDataFromFile(file);
     }
+  }
+
+  public setSelectedPreset(event: any) {
+    this.selectedPreset = event?.target?.value as string;
+  }
+
+  public onTransformClick() {
+    const converterConfig = this.dataCoverter.availablePresets[this.selectedPreset];
+
+    this.transformedData = this.dataCoverter.transformData(
+      this.csvParser.getCsvDataRows(this.csvData!),
+      converterConfig
+    );
   }
 
   public onDownloadClick() {

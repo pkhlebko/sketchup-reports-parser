@@ -1,46 +1,87 @@
 import { Injectable } from '@angular/core';
-import { DataRow } from './csv-parser.service';
+import { type } from 'os';
+import { CsvData, DataRow } from './csv-parser.service';
+
+export type ConverterConfig = {
+    matcher: RegExp,
+    template: { title: string, source: string }[]
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataConverterService {
 
+  private readonly matchColumn = 'Definition Name';
+  private readonly presets: {[key: string]: ConverterConfig} = {
+    'Furniture': {
+      matcher: /^(.+) (\d+)x(\d+) ([0-1]{4})(.*)$/,
+      template: [
+        { title: 'Name', source: 'm1' },
+        { title: 'X', source: 'm2' },
+        { title: 'Y', source: 'm3' },
+        { title: 'Quantity', source: 'Quantity' },
+        { title: 'X1B', source: 'm4c0' },
+        { title: 'X2B', source: 'm4c1' },
+        { title: 'Y1B', source: 'm4c2' },
+        { title: 'Y2B', source: 'm4c3' },
+        { title: 'Comment', source: 'm5' }
+      ]
+    },
+    'Frame building': {
+      matcher: /^(.+) (\d+)x(\d+) ([0-1]{4})(.*)$/,
+      template: [
+        { title: 'Name', source: 'm1' },
+        { title: 'X', source: 'm2' },
+        { title: 'Y', source: 'm3' },
+        { title: 'Quantity', source: 'Quantity' },
+        { title: 'X1B', source: 'm4c0' },
+        { title: 'X2B', source: 'm4c1' },
+        { title: 'Y1B', source: 'm4c2' },
+        { title: 'Y2B', source: 'm4c3' },
+        { title: 'Comment', source: 'm5' }
+      ]
+    }
+  };
+
+  public get availablePresets() {
+    return this.presets;
+  }
+
   constructor() { }
 
-  public transformData(data: DataRow[]): string[][] {
-    const definitionExp = /^(.+) (\d+)x(\d+) ([0-1]{4})(.*)$/;
-    const headerRow = [
-      'Name',
-      'X',
-      'Y',
-      'Quantity',
-      'X1B',
-      'X2B',
-      'Y1B',
-      'Y2B',
-      'Comment'
-    ];
-    const itemConverter = (item: DataRow) => {
-      const match = item['Definition Name'].match(definitionExp);
+  public transformData(data: DataRow[], config: ConverterConfig): CsvData {
+    const itemConverter = (item: DataRow, rowIndex: number) => {
+      const match = item[this.matchColumn].match(config.matcher);
 
       if (!match) {
         return null;
       }
 
-      return [
-        match[1],
-        match[2],
-        match[3],
-        item['Quantity'],
-        match[4].charAt(0),
-        match[4].charAt(1),
-        match[4].charAt(2),
-        match[4].charAt(3),
-        match[5]
-      ];
+      return config.template.map(cell => this.getCellValue(
+        cell.source,
+        match,
+        data[rowIndex]
+      ));
     }
+    const headerRow = config.template.map(cell => cell.title);
+
+
+
     // @ts-ignore
     return [headerRow].concat(data.map(itemConverter).filter(item => item));
+  }
+
+  private getCellValue(souce: string, matches: RegExpMatchArray, row: DataRow) {
+    const result = /^m(\d+)(?:c(\d+))?$/.exec(souce);
+
+    if (result === null) {
+      return row[souce];
+    } else {
+      const matchNumber = result[1];
+      const charNumber = result[2];
+
+      return charNumber ? matches[parseInt(matchNumber)].charAt(parseInt(charNumber)) : matches[parseInt(matchNumber)];
+    }
   }
 }

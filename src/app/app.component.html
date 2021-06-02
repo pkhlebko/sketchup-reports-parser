@@ -1,21 +1,47 @@
 <h1 class="title">Sketchup report parser</h1>
 
 <section class="container mt-6">
-  <div class="file is-primary">
+  <div class="file is-light is-inline-block">
     <label class="file-label">
-      <input class="file-input" type="file" name="resume" (change)="onFileSelected($event)">
+      <input
+        class="file-input"
+        type="file"
+        name="resume"
+        (change)="onFileSelected($event)"
+      />
       <span class="file-cta">
         <span class="file-label">Choose a file…</span>
       </span>
     </label>
   </div>
+  <div class="select ml-4" *ngIf="csvData" (change)="setSelectedPreset($event)">
+    <select>
+      <option *ngFor="let preset of converterPresets">{{ preset }}</option>
+    </select>
+  </div>
+  <button
+    class="button is-primary ml-4"
+    *ngIf="csvData"
+    (click)="onTransformClick()"
+  >
+    Transform
+  </button>
+</section>
+
+<section class="container mt-6" *ngIf="csvData">
+  <h2 class="subtitle is-3">{{ fileName }}</h2>
+  <table class="table table is-bordered">
+    <tr *ngFor="let row of csvData">
+      <td *ngFor="let value of row">{{ value }}</td>
+    </tr>
+  </table>
 </section>
 
 <section class="container mt-6" *ngIf="transformedData">
-  <h2 class="subtitle is-3">{{ fileName }}</h2>
+  <h2 class="subtitle is-3">Transformed report</h2>
   <table class="table table is-bordered">
-    <tr *ngFor="let row of transformedData;">
-      <td *ngFor="let value of row;">{{ value }}</td>
+    <tr *ngFor="let row of transformedData">
+      <td *ngFor="let value of row">{{ value }}</td>
     </tr>
   </table>
 </section>
