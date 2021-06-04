@@ -15,7 +15,7 @@ export class DataConverterService {
   private readonly matchColumn = 'Definition Name';
   private readonly presets: {[key: string]: ConverterConfig} = {
     'Furniture': {
-      matcher: /^(.+) (\d+)x(\d+) ([0-1]{4})(.*)$/,
+      matcher: /^(.+) (\d+)[x\*](\d+) ([0-1]{4})(.*)$/,
       template: [
         { title: 'Name', source: 'm1' },
         { title: 'X', source: 'm2' },
@@ -29,17 +29,13 @@ export class DataConverterService {
       ]
     },
     'Frame building': {
-      matcher: /^(.+) (\d+)x(\d+) ([0-1]{4})(.*)$/,
+      matcher: /^(.+) (\d+)(?:[x\*](\d+))*(.*)$/,
       template: [
-        { title: 'Name', source: 'm1' },
-        { title: 'X', source: 'm2' },
-        { title: 'Y', source: 'm3' },
+        { title: 'Material', source: 'm1' },
+        { title: 'Length', source: 'm2' },
+        { title: 'Width', source: 'm3' },
         { title: 'Quantity', source: 'Quantity' },
-        { title: 'X1B', source: 'm4c0' },
-        { title: 'X2B', source: 'm4c1' },
-        { title: 'Y1B', source: 'm4c2' },
-        { title: 'Y2B', source: 'm4c3' },
-        { title: 'Comment', source: 'm5' }
+        { title: 'Comment', source: 'm4' }
       ]
     }
   };
