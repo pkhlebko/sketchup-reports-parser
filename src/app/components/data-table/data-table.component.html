@@ -1,0 +1,8 @@
+<ng-container *ngIf="data">
+  <h2 class="subtitle is-3" *ngIf="title">{{ title }}</h2>
+  <table class="table table is-bordered">
+    <tr *ngFor="let row of data">
+      <td *ngFor="let value of row">{{ value }}</td>
+    </tr>
+  </table>
+</ng-container>
