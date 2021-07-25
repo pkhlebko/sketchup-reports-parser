@@ -9,8 +9,8 @@ import { DocumentationComponent } from './components/documentation/documentation
 import { ToolComponent } from './components/tool/tool.component';
 
 const appRoutes: Routes = [
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: ToolComponent },
+  { path: '',   redirectTo: '/tool', pathMatch: 'full' },
+  { path: 'tool', component: ToolComponent },
   { path: 'documentation', component: DocumentationComponent },
 ];
 
@@ -24,10 +24,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    )
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
