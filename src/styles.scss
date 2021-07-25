@@ -6,3 +6,16 @@ app-root {
   display: block;
   margin: 1em;
 }
+
+app-data-table {
+  table {
+    font-size: 0.8em;
+  }
+
+  .scroll-container {
+    display: block;
+    max-height: 20vh;
+    height: 20vh;
+    overflow-y: scroll;
+  }
+}

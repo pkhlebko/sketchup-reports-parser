@@ -1,0 +1,50 @@
+<section class="container mt-6">
+  <div class="file is-light is-inline-block">
+    <label class="file-label">
+      <input
+        class="file-input"
+        type="file"
+        name="resume"
+        (change)="onFileSelected($event)"
+      />
+      <span class="file-cta">
+        <span class="file-label">Choose a file…</span>
+      </span>
+    </label>
+  </div>
+  <div class="select ml-4" *ngIf="csvData" (change)="setSelectedPreset($event)">
+    <select>
+      <option *ngFor="let preset of converterPresets">{{ preset }}</option>
+    </select>
+  </div>
+  <button
+    class="button is-primary ml-4"
+    *ngIf="csvData"
+    (click)="onTransformClick()"
+  >
+    Transform
+  </button>
+</section>
+
+<section class="container mt-6" *ngIf="csvData">
+  <app-data-table [title]="fileName" [data]="csvData"></app-data-table>
+</section>
+
+<section class="container mt-6" *ngIf="transformedData">
+  <app-data-table
+    [title]="'Transformed report'"
+    [data]="transformedData"
+  ></app-data-table>
+</section>
+
+<section class="container mt-6">
+  <button
+    class="button is-success"
+    *ngIf="transformedData"
+    (click)="onDownloadClick()"
+  >
+    Download result
+  </button>
+</section>
+
+<section id="result"></section>
