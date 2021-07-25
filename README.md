@@ -1,6 +1,6 @@
-# SketchupReportsParser
+# Sketchup Reports Parser
 
-Extends Sketchup export csv file with fields from object defenition.
+[Sketchup Reports Parser](https://pkhlebko.github.io/sketchup-reports-parser/) Extends Sketchup export csv file with fields from object defenition.
 
 ## How to use
 

@@ -6,10 +6,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  isActive = false;
+  public isActive = false;
 
   onBurgerClick() {
     this.isActive = !this.isActive;
-    console.log(this.isActive)
   }
 }

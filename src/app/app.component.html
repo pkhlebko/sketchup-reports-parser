@@ -1,26 +1,30 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <h1 class="has-text-primary" style="font-weight: 700; font-size: 1.8em; margin-right: 1em;">Sketchup Parser</h1>
-    <a
-      role="button"
-      class="navbar-burger is-active"
-      [ngClass]="{'is-active': isActive}"
-      (click)="onBurgerClick()"
-      aria-label="menu"
-      aria-expanded="false"
-    >
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
+<section class="container">
 
-  <div class="navbar-menu" [ngClass]="{'is-active': isActive}">
-    <div class="navbar-start">
-      <a routerLink="/tool" class="navbar-item">Home</a>
-      <a routerLink="/documentation" class="navbar-item">Documentation</a>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <h1 class="has-text-primary" style="font-weight: 700; font-size: 1.8em; margin-right: 1em;">Sketchup Parser</h1>
+      <a
+        role="button"
+        class="navbar-burger is-active"
+        [ngClass]="{'is-active': isActive}"
+        (click)="onBurgerClick()"
+        aria-label="menu"
+        aria-expanded="false"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-  </div>
-</nav>
 
-<router-outlet></router-outlet>
+    <div class="navbar-menu" [ngClass]="{'is-active': isActive}">
+      <div class="navbar-start">
+        <a routerLink="/tool" class="navbar-item">Home</a>
+        <a routerLink="/documentation" class="navbar-item">Documentation</a>
+      </div>
+    </div>
+  </nav>
+
+  <router-outlet></router-outlet>
+
+</section>
